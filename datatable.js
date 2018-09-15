@@ -136,7 +136,7 @@ var datatable = (function() {
     buildLookup(datatable, 0);
   };
 
-  function serialize(customID, toSource) {
+  function serialize(toSource, customID) {
     var d1 = '\x1c',
       d2 = '\x1d',
       datatable = this,
