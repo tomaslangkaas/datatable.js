@@ -5,6 +5,19 @@ Simple in-memory JavaScript data storage compatible with daqu queries
 
 ### Create a datatable
 
+```
+datatable(
+  columnNames, // array of column names, 
+               // first is name of key column
+  columnTypes, // array of column types, 
+               // 0 = string, 1 = number
+               // defaults to all strings (if falsy)
+  data,        // two-dimensional array of data
+  nextKey      // integer, next key value
+)
+```
+
+
 ```javascript
 var tableInstance = datatable(
   ['key', 'name', 'age'],  // column names
@@ -40,6 +53,30 @@ tableInstance.create({
 });
 ```
 
+### Serialize and unserialize
+
 ```javascript
-var tableInstance = datatable().unserialize(serializedData);
+var serializedDataString = tableInstance.serialize();
+var newTableInstance = datatable().unserialize(serializedDataString);
+```
+
+### Create, read, update and delete records
+
+```javascript
+var tableInstance = datatable(
+  ['key', 'name', 'age'],  // column names
+  [    1,      0,     1]   // column types, 0 = string, 1 = number
+);
+
+var record = {
+  name: 'James',
+  age: 45
+};
+
+tableInstance.create(record);     // record is copied to datatable
+                                  // record.key is set
+record.age = 44;                  // edit record field
+tableInstance.update(record);     // update record in datatable
+tableInstance.read(record.key);   // returns record copy
+tableInstance.remove(record.key); // deletes record from datatable
 ```
