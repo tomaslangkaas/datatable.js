@@ -1,15 +1,18 @@
 var datatable = (function() {
 
   datatable.version = '0.1.0';
+  datatable.mixins = {};
 
   // factory function
 
-  function datatable(names,  // ['key', ...] 
-                     types,  // [0, 1, ...]
-                     data,   // [[keys], [col 1], ...]
-                     counter // integer
-                     ) { 
-    var i = 1;
+  function datatable(
+    names,  // ['key', ...] 
+    types,  // [0, 1, ...]
+    data,   // [[keys], [col 1], ...]
+    counter // integer
+  ) { 
+    var i = 1,
+      datatableInstance;
     names = names || [];
     if (!data) {
       data = [
@@ -19,7 +22,7 @@ var datatable = (function() {
         data[i++] = [];
       }
     }
-    return buildLookup({
+    datatableInstance = {
       data: data,
       counter: counter || 1,
       names: names,
@@ -30,7 +33,11 @@ var datatable = (function() {
       remove: remove,
       serialize: serialize,
       unserialize: unserialize
-    }, 0);
+    };
+    for (i in datatable.mixins) {
+      datatableInstance[i] = datatable.mixins[i];
+    }
+    return buildLookup(datatableInstance, 0);
   }
 
   // private methods
@@ -89,8 +96,8 @@ var datatable = (function() {
     while (column < data.length) {
       data[column][index] = types[column] == 1 ?
         +record[names[column++]] :
-        (record[names[column++]] + '')
-        .replace(/[\x1c-\x1f]/g, '');
+        ([record[names[column++]]] + '').replace(/[\x1c-\x1f]/g,
+          '');
     }
     return record;
   }
@@ -101,7 +108,7 @@ var datatable = (function() {
       lookup = datatable.lookup,
       index = lookup[id],
       column = 0;
-    if (data[0][index] != id) {
+    if (id === void 0 || data[0][index] != id) {
       return false;
     }
     while (column < data.length) {
@@ -116,13 +123,10 @@ var datatable = (function() {
     var datatable = this,
       col,
       row, temp, data;
-    serialized = ('' + serialized)
-      .split('\x1c');
+    serialized = ('' + serialized).split('\x1c');
     datatable.counter = +serialized[0];
-    datatable.names = ('' + serialized[1])
-      .split('\x1d');
-    datatable.types = ('' + serialized[2])
-      .split('\x1d');
+    datatable.names = ('' + serialized[1]).split('\x1d');
+    datatable.types = ('' + serialized[2]).split('\x1d');
     data = datatable.data = [];
     for (col = 0; col < serialized.length - 3; col++) {
       temp = data[col] = serialized[col + 3].split('\x1d');
@@ -152,9 +156,8 @@ var datatable = (function() {
     return toSource ? '"' + serialized.replace(
       /[\x00-\x1f\"\\\/]/g,
       function(m) {
-        return '\\x' + ('0' + m.charCodeAt(0)
-            .toString(16))
-          .slice(-2);
+        return '\\x' + ('0' + m.charCodeAt(0).toString(16)).slice(
+          -2);
       }) + '"' : serialized;
   };
 

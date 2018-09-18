@@ -1,6 +1,31 @@
 # datatable.js
 Simple in-memory JavaScript data storage compatible with daqu queries
 
+```javascript
+// create empty datatable with 3 fields,
+// first field is record identifier
+// fields are of type string by default
+var data = datatable(['key', 'name', 'age']);
+
+// create first record, store a copy
+var recordCopy = data.create({
+  name: 'Jim',
+  age: 27
+});
+
+// identifier field is assigned on creation
+console.log(recordCopy.key);
+> "1"
+
+// records are retreived by their identifier
+console.log(data.read("1"));
+> {key: "1", name: "Jim", age: "27"}
+
+
+
+
+```
+
 ## API
 
 ### Create a datatable
