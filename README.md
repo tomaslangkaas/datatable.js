@@ -21,6 +21,15 @@ console.log(recordCopy.key);
 console.log(data.read("1"));
 > {key: "1", name: "Jim", age: "27"}
 
+// records are also deleted by their identifier
+// data.remove() returns a boolean to confirm deletion
+console.log(data.remove("1"));
+> true
+
+// attempting to retrieve a nonexisting record returns false
+console.log(data.read("1"));
+> false
+
 
 
 
