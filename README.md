@@ -5,29 +5,40 @@ Simple in-memory JavaScript data storage compatible with daqu queries
 // create empty datatable with 3 fields,
 // first field is record identifier
 // fields are of type string by default
+
 var data = datatable(['key', 'name', 'age']);
 
 // create first record, store a copy
+
 var recordCopy = data.create({
   name: 'Jim',
   age: 27
 });
 
 // identifier field is assigned on creation
+
 console.log(recordCopy.key);
 > "1"
 
 // records are retreived by their identifier
+
 console.log(data.read("1"));
 > {key: "1", name: "Jim", age: "27"}
 
 // records are also deleted by their identifier
 // data.remove() returns a boolean to confirm deletion
+
 console.log(data.remove("1"));
 > true
 
 // attempting to retrieve a nonexisting record returns false
+
 console.log(data.read("1"));
+> false
+
+// attempting to delete a nonexisting record returns false
+
+console.log(data.remove("1"));
 > false
 
 
@@ -36,6 +47,34 @@ console.log(data.read("1"));
 ```
 
 ## API
+
+### Instance creation
+
+#### datatable([fieldNamesArray][, fieldTypesArray][, dataArray][, counterState])
+
+#### Creation from unserialization
+
+### Instance properties
+
+#### datatableInstance.names
+#### datatableInstance.types
+#### datatableInstance.data
+#### datatableInstance.counter
+#### datatableInstance.index
+
+### Instance methods
+
+#### datatableInstance.create(recordObject)
+#### datatableInstance.read(identifier)
+#### datatableInstance.update(recordObject)
+#### datatableInstance.remove(identifier)
+#### datatableInstance.serialize()
+#### datatableInstance.unserialize(serializedString)
+
+### Constructor properties
+
+#### datatable.version
+#### datatable.mixins
 
 ### Create a datatable
 
