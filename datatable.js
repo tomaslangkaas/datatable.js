@@ -24,7 +24,7 @@ var datatable = (function() {
     }
     datatableInstance = {
       data: data,
-      counter: counter || 1,
+      counter: +counter || 1,
       names: names,
       types: types || [],
       create: create,
