@@ -52,7 +52,50 @@ console.log(data.remove("1"));
 
 #### datatable([fieldNamesArray][, fieldTypesArray][, dataArray][, counterState])
 
-#### Creation from unserialization
+#### Creation from serialized data
+
+```javascript
+var datatableInstance = datatable().unserialize(serializedData);
+```
+
+### Instance methods
+
+#### datatableInstance.create(recordObject)
+
+```javascript
+var recordCopy = datatableInstance.create(recordObject);
+```
+
+#### datatableInstance.read(identifier)
+
+```javascript
+var recordCopy = datatableInstance.read(recordIdentifier);
+```
+
+#### datatableInstance.update(recordObject)
+
+```javascript
+var recordCopy = datatableInstance.update(recordObject);
+```
+
+#### datatableInstance.remove(identifier)
+
+```javascript
+var confirmRemoval = datatableInstance.remove(recordIdentifier);
+```
+
+
+#### datatableInstance.serialize()
+
+```javascript
+var serializedString = datatableInstance.serialize();
+```
+
+#### datatableInstance.unserialize(serializedString)
+
+```javascript
+datatableInstance.unserialize(serializedString);
+```
 
 ### Instance properties
 
@@ -61,15 +104,6 @@ console.log(data.remove("1"));
 #### datatableInstance.data
 #### datatableInstance.counter
 #### datatableInstance.index
-
-### Instance methods
-
-#### datatableInstance.create(recordObject)
-#### datatableInstance.read(identifier)
-#### datatableInstance.update(recordObject)
-#### datatableInstance.remove(identifier)
-#### datatableInstance.serialize()
-#### datatableInstance.unserialize(serializedString)
 
 ### Constructor properties
 
